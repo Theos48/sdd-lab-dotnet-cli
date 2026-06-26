@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    working_dir: /src
+    environment:
+      DOTNET_CLI_HOME: /tmp/dotnet
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - .:/src
+      - nuget_cache:/root/.nuget/packages
+    command: sleep infinity
+
+volumes:
+  nuget_cache:
