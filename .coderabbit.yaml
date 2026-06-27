@@ -1,0 +1,13 @@
+reviews:
+  path_filters:
+    - "src/**"
+    - "tests/**"
+    - "Makefile"
+    - "compose.yaml"
+    - "Dockerfile"
+    - "global.json"
+    - "Directory.Build.props"
+    - "!**/bin/**"
+    - "!**/obj/**"
+    - "!.specify/**"
+    - "!specs/**"

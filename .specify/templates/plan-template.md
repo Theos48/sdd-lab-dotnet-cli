@@ -18,17 +18,17 @@
   the iteration process.
 -->
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
+**Language/Version**: [.NET 8 CLI unless the specification justifies another target]
 
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
+**Primary Dependencies**: [existing project dependencies first; new dependencies require justification]
 
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
+**Storage**: [N/A by default; persistent storage requires explicit specification]
 
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
+**Testing**: [automated tests via make test]
 
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
+**Target Platform**: [containerized Fedora-hosted development lab via Docker Compose]
 
-**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]
+**Project Type**: [CLI]
 
 **Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
 
@@ -40,7 +40,13 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **Containerized reproducibility**: Uses `make` and Docker Compose; no host .NET SDK/runtime dependency.
+- **Make-driven CLI contract**: Arguments, stdout, stderr, and exit codes are specified for changed behavior.
+- **Testable domain boundaries**: Domain logic remains separate from console input/output.
+- **Automated coverage**: Every completed behavior has tests runnable by `make test`.
+- **Explicit failure semantics**: Invalid input paths define clear messages and non-zero exit codes.
+- **Scope control**: No database, background service, web stack, or extra infrastructure unless justified.
+- **Quality gate**: Closing work requires `make test` and `make lint` results.
 
 ## Project Structure
 
@@ -65,17 +71,9 @@ specs/[###-feature]/
 -->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
-src/
-├── models/
-├── services/
-├── cli/
-└── lib/
-
-tests/
-├── contract/
-├── integration/
-└── unit/
+# Default: existing .NET CLI lab structure
+src/TimezoneCli/
+tests/TimezoneCli.Tests/
 
 # [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
 backend/

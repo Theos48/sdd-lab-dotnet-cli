@@ -9,7 +9,9 @@ description: "Task list template for feature implementation"
 
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+**Tests**: Automated tests are REQUIRED for every completed behavior. Include
+test tasks for success paths, invalid input, output/error text, and exit codes
+that the feature changes.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -21,6 +23,7 @@ description: "Task list template for feature implementation"
 
 ## Path Conventions
 
+- **CLI lab**: `src/TimezoneCli/`, `tests/TimezoneCli.Tests/`
 - **Single project**: `src/`, `tests/` at repository root
 - **Web app**: `backend/src/`, `frontend/src/`
 - **Mobile**: `api/src/`, `ios/src/` or `android/src/`
@@ -49,9 +52,9 @@ description: "Task list template for feature implementation"
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per implementation plan
-- [ ] T002 Initialize [language] project with [framework] dependencies
-- [ ] T003 [P] Configure linting and formatting tools
+- [ ] T001 Confirm implementation uses existing `Makefile`, Docker Compose, and .NET 8 CLI structure
+- [ ] T002 Identify domain logic files and console input/output boundary files in the implementation plan
+- [ ] T003 [P] Confirm existing linting and formatting validation remains runnable through `make lint`
 
 ---
 
@@ -63,12 +66,12 @@ description: "Task list template for feature implementation"
 
 Examples of foundational tasks (adjust based on your project):
 
-- [ ] T004 Setup database schema and migrations framework
-- [ ] T005 [P] Implement authentication/authorization framework
-- [ ] T006 [P] Setup API routing and middleware structure
-- [ ] T007 Create base models/entities that all stories depend on
-- [ ] T008 Configure error handling and logging infrastructure
-- [ ] T009 Setup environment configuration management
+- [ ] T004 Define reusable domain behavior separate from console input/output
+- [ ] T005 [P] Define CLI argument validation and failure semantics
+- [ ] T006 [P] Define output/error text expectations for changed behavior
+- [ ] T007 Create shared models/entities that all stories depend on, if required
+- [ ] T008 Configure explicit error handling for invalid input paths
+- [ ] T009 Verify no unapproved database, service, web stack, or infrastructure work is included
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -80,21 +83,21 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 1 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 1 (REQUIRED)
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T010 [P] [US1] Domain behavior test in tests/TimezoneCli.Tests/[name]Tests.cs
+- [ ] T011 [P] [US1] CLI input/output and exit-code test in tests/TimezoneCli.Tests/[name]CliTests.cs
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
+- [ ] T012 [P] [US1] Create or update domain model in src/TimezoneCli/[path]
+- [ ] T013 [P] [US1] Create or update domain service in src/TimezoneCli/[path]
+- [ ] T014 [US1] Wire domain service to CLI boundary in src/TimezoneCli/[path]
+- [ ] T015 [US1] Implement expected stdout behavior
+- [ ] T016 [US1] Add validation, stderr messages, and non-zero exit codes for invalid input
+- [ ] T017 [US1] Run `make test` for User Story 1
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -106,16 +109,16 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 2 (REQUIRED)
 
-- [ ] T018 [P] [US2] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T019 [P] [US2] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T018 [P] [US2] Domain behavior test in tests/TimezoneCli.Tests/[name]Tests.cs
+- [ ] T019 [P] [US2] CLI input/output and exit-code test in tests/TimezoneCli.Tests/[name]CliTests.cs
 
 ### Implementation for User Story 2
 
-- [ ] T020 [P] [US2] Create [Entity] model in src/models/[entity].py
-- [ ] T021 [US2] Implement [Service] in src/services/[service].py
-- [ ] T022 [US2] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T020 [P] [US2] Create or update domain model in src/TimezoneCli/[path]
+- [ ] T021 [US2] Implement domain service in src/TimezoneCli/[path]
+- [ ] T022 [US2] Wire CLI behavior in src/TimezoneCli/[path]
 - [ ] T023 [US2] Integrate with User Story 1 components (if needed)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
@@ -128,16 +131,16 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 3 (REQUIRED)
 
-- [ ] T024 [P] [US3] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T024 [P] [US3] Domain behavior test in tests/TimezoneCli.Tests/[name]Tests.cs
+- [ ] T025 [P] [US3] CLI input/output and exit-code test in tests/TimezoneCli.Tests/[name]CliTests.cs
 
 ### Implementation for User Story 3
 
-- [ ] T026 [P] [US3] Create [Entity] model in src/models/[entity].py
-- [ ] T027 [US3] Implement [Service] in src/services/[service].py
-- [ ] T028 [US3] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T026 [P] [US3] Create or update domain model in src/TimezoneCli/[path]
+- [ ] T027 [US3] Implement domain service in src/TimezoneCli/[path]
+- [ ] T028 [US3] Wire CLI behavior in src/TimezoneCli/[path]
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -154,9 +157,11 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] TXXX [P] Documentation updates in docs/
 - [ ] TXXX Code cleanup and refactoring
 - [ ] TXXX Performance optimization across all stories
-- [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
+- [ ] TXXX [P] Additional automated tests for edge cases in tests/TimezoneCli.Tests/
 - [ ] TXXX Security hardening
 - [ ] TXXX Run quickstart.md validation
+- [ ] TXXX Run `make test`
+- [ ] TXXX Run `make lint`
 
 ---
 
@@ -179,9 +184,9 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Within Each User Story
 
-- Tests (if included) MUST be written and FAIL before implementation
+- Tests MUST be written and fail before implementation where behavior changes are testable upfront
 - Models before services
-- Services before endpoints
+- Services before CLI boundary wiring
 - Core implementation before integration
 - Story complete before moving to next priority
 
@@ -199,13 +204,13 @@ Examples of foundational tasks (adjust based on your project):
 ## Parallel Example: User Story 1
 
 ```bash
-# Launch all tests for User Story 1 together (if tests requested):
-Task: "Contract test for [endpoint] in tests/contract/test_[name].py"
-Task: "Integration test for [user journey] in tests/integration/test_[name].py"
+# Launch all tests for User Story 1 together:
+Task: "Domain behavior test in tests/TimezoneCli.Tests/[name]Tests.cs"
+Task: "CLI input/output and exit-code test in tests/TimezoneCli.Tests/[name]CliTests.cs"
 
-# Launch all models for User Story 1 together:
-Task: "Create [Entity1] model in src/models/[entity1].py"
-Task: "Create [Entity2] model in src/models/[entity2].py"
+# Launch all domain updates for User Story 1 together:
+Task: "Create or update domain model in src/TimezoneCli/[path]"
+Task: "Create or update domain service in src/TimezoneCli/[path]"
 ```
 
 ---
@@ -245,8 +250,9 @@ With multiple developers:
 
 - [P] tasks = different files, no dependencies
 - [Story] label maps task to specific user story for traceability
-- Each user story should be independently completable and testable
+- Each user story MUST be independently completable and testable
 - Verify tests fail before implementing
+- Verify final work with `make test` and `make lint`
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
 - Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence

@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "aliases": [
+    {
+      "alias": "mexico city",
+      "normalizedAlias": "mexico city",
+      "displayName": "Mexico City",
+      "timeZoneId": "America/Mexico_City"
+    },
+    {
+      "alias": "london",
+      "normalizedAlias": "london",
+      "displayName": "London",
+      "timeZoneId": "Europe/London"
+    },
+    {
+      "alias": "new york",
+      "normalizedAlias": "new york",
+      "displayName": "New York",
+      "timeZoneId": "America/New_York"
+    },
+    {
+      "alias": "tokyo",
+      "normalizedAlias": "tokyo",
+      "displayName": "Tokyo",
+      "timeZoneId": "Asia/Tokyo"
+    }
+  ]
+}
