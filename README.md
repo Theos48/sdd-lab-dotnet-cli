@@ -11,7 +11,9 @@
 
   ## Que hace este proyecto
 
-  Este repositorio es una base reproducible para desarrollar una CLI en `.NET 8`.
+  Este repositorio contiene una CLI en `.NET 8` para consultar la fecha y hora
+  local actual de un lugar y compararla con otro lugar al planear reuniones
+  entre zonas horarias.
 
   El flujo del laboratorio esta pensado para que:
 
@@ -22,8 +24,9 @@
   - la logica de dominio quede separada de la entrada/salida de consola
   - las entradas invalidas fallen con mensajes claros y codigos distintos de cero
 
-  En el estado actual, la app es una consola minima y el proyecto sirve como base
-  para seguir desarrollando la CLI.
+  La entrada canonica de v1 son identificadores IANA como
+  `America/Mexico_City`. Tambien existe una lista local y versionada de aliases
+  soportados en `src/TimezoneCli/Data/place-aliases.json`.
 
   ## Requisitos
 
@@ -72,7 +75,35 @@
   make dev
   ```
 
-  En el estado actual, este comando corre el proyecto src/TimezoneCli.
+  Para pasar argumentos a la CLI, usa Docker Compose directamente:
+
+  ```bash
+  docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City
+  ```
+
+  Comparacion entre dos lugares:
+
+  ```bash
+  docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --compare Europe/London
+  ```
+
+  Aliases soportados en v1:
+
+  - `mexico city` -> `America/Mexico_City`
+  - `london` -> `Europe/London`
+  - `new york` -> `America/New_York`
+  - `tokyo` -> `Asia/Tokyo`
+
+  Codigos de salida:
+
+  - `0`: exito
+  - `1`: entrada invalida
+  - `2`: entrada no soportada, incluidos codigos postales mexicanos
+  - `3`: lugar desconocido
+  - `4`: entrada ambigua
+
+  Los codigos postales mexicanos, por ejemplo `01000`, no se resuelven en v1.
+  La CLI falla explicitamente y sugiere usar un timezone IANA.
 
   ## Correr pruebas
 

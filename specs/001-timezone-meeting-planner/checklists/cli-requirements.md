@@ -8,90 +8,90 @@
 
 ## Requirement Completeness
 
-- [ ] CHK001 Are all accepted input forms explicitly documented, including timezone identifiers and supported aliases? [Completeness, Spec FR-002, Spec FR-002a, Contract Inputs]
-- [ ] CHK002 Are all rejected input forms explicitly documented, including Mexican postal codes, unknown places, malformed timezone identifiers, and extra comparison places? [Completeness, Spec FR-009, Spec FR-010, Contract Inputs]
-- [ ] CHK003 Are required and optional command arguments specified with clear cardinality for requested place and comparison place? [Completeness, Spec FR-001, Contract Command Shape]
-- [ ] CHK004 Are the required successful lookup fields fully specified for resolved place, timezone, local date, local time, and UTC offset? [Completeness, Spec FR-003, Spec FR-013, Contract Successful Lookup Output]
-- [ ] CHK005 Are the required successful comparison fields fully specified for both places, time difference, per-place working-hours status, and combined suitability? [Completeness, Spec FR-004, Spec FR-005, Spec FR-006, Contract Successful Comparison Output]
-- [ ] CHK006 Are out-of-scope scheduling behaviors documented clearly enough to prevent calendar, attendee, reminder, recurrence, or availability requirements from leaking into v1? [Completeness, Spec FR-011, Contract Inputs]
+- [x] CHK001 Are all accepted input forms explicitly documented, including timezone identifiers and supported aliases? [Completeness, Spec FR-002, Spec FR-002a, Contract Inputs]
+- [x] CHK002 Are all rejected input forms explicitly documented, including Mexican postal codes, unknown places, malformed timezone identifiers, and extra comparison places? [Completeness, Spec FR-009, Spec FR-010, Contract Inputs]
+- [x] CHK003 Are required and optional command arguments specified with clear cardinality for requested place and comparison place? [Completeness, Spec FR-001, Contract Command Shape]
+- [x] CHK004 Are the required successful lookup fields fully specified for resolved place, timezone, local date, local time, and UTC offset? [Completeness, Spec FR-003, Spec FR-013, Contract Successful Lookup Output]
+- [x] CHK005 Are the required successful comparison fields fully specified for both places, time difference, per-place working-hours status, and combined suitability? [Completeness, Spec FR-004, Spec FR-005, Spec FR-006, Contract Successful Comparison Output]
+- [x] CHK006 Are out-of-scope scheduling behaviors documented clearly enough to prevent calendar, attendee, reminder, recurrence, or availability requirements from leaking into v1? [Completeness, Spec FR-011, Contract Inputs]
 
 ## Requirement Clarity
 
-- [ ] CHK007 Is the canonical meaning of "timezone-based input" defined as an IANA timezone identifier rather than an informal place name? [Clarity, Spec FR-002, Plan Technical Context]
-- [ ] CHK008 Is "small documented alias list" clear enough to distinguish supported aliases from arbitrary place-name lookup? [Clarity, Spec FR-002a, Data Model SupportedAlias]
-- [ ] CHK009 Is the Mexican postal-code exclusion stated with enough precision to define what postal-code-shaped input means for v1? [Clarity, Spec FR-009, Data Model PlaceInput]
-- [ ] CHK010 Is the ambiguous-alias behavior unambiguous about non-interactive failure, no automatic selection, and optional match listing? [Clarity, Spec FR-010a, Contract Error Output]
-- [ ] CHK011 Is the successful output format specified with stable labels rather than prose-only descriptions? [Clarity, Spec FR-013, Contract Successful Lookup Output, Contract Successful Comparison Output]
-- [ ] CHK012 Is the working-hours interval specified with exact weekday scope and boundary treatment for 09:00 and 17:00? [Clarity, Spec FR-007, Data Model WorkingHoursAssessment]
+- [x] CHK007 Is the canonical meaning of "timezone-based input" defined as an IANA timezone identifier rather than an informal place name? [Clarity, Spec FR-002, Plan Technical Context]
+- [x] CHK008 Is "small documented alias list" clear enough to distinguish supported aliases from arbitrary place-name lookup? [Clarity, Spec FR-002a, Data Model SupportedAlias]
+- [x] CHK009 Is the Mexican postal-code exclusion stated with enough precision to define what postal-code-shaped input means for v1? [Clarity, Spec FR-009, Data Model PlaceInput]
+- [x] CHK010 Is the ambiguous-alias behavior unambiguous about non-interactive failure, no automatic selection, and optional match listing? [Clarity, Spec FR-010a, Contract Error Output]
+- [x] CHK011 Is the successful output format specified with stable labels rather than prose-only descriptions? [Clarity, Spec FR-013, Contract Successful Lookup Output, Contract Successful Comparison Output]
+- [x] CHK012 Is the working-hours interval specified with exact weekday scope and boundary treatment for 09:00 and 17:00? [Clarity, Spec FR-007, Data Model WorkingHoursAssessment]
 
 ## Requirement Consistency
 
-- [ ] CHK013 Are the spec, plan, data model, and CLI contract consistent that v1 has no external APIs, databases, or network access? [Consistency, Plan Constraints, Research Decisions]
-- [ ] CHK014 Are the spec and contract consistent that Mexican postal codes are rejected rather than resolved through prefix or full lookup? [Consistency, Spec FR-009, Contract Error Output, Research Decision]
-- [ ] CHK015 Are the output labels in the contract consistent with the fields required by the spec and data model? [Consistency, Spec FR-013, Data Model CliResult, Contract Outputs]
-- [ ] CHK016 Are exit-code categories consistent between explicit failure semantics and the CLI contract's error classes? [Consistency, Spec FR-010, Contract Exit Codes]
-- [ ] CHK017 Are comparison requirements consistent that suitability is combined only when both places are within working hours? [Consistency, Spec FR-006, Data Model TimeComparison, Contract Successful Comparison Output]
-- [ ] CHK018 Are alias ambiguity requirements consistent between supported alias data validation and CLI error behavior? [Consistency, Spec FR-010a, Data Model AliasCatalog, Contract Error Output]
+- [x] CHK013 Are the spec, plan, data model, and CLI contract consistent that v1 has no external APIs, databases, or network access? [Consistency, Plan Constraints, Research Decisions]
+- [x] CHK014 Are the spec and contract consistent that Mexican postal codes are rejected rather than resolved through prefix or full lookup? [Consistency, Spec FR-009, Contract Error Output, Research Decision]
+- [x] CHK015 Are the output labels in the contract consistent with the fields required by the spec and data model? [Consistency, Spec FR-013, Data Model CliResult, Contract Outputs]
+- [x] CHK016 Are exit-code categories consistent between explicit failure semantics and the CLI contract's error classes? [Consistency, Spec FR-010, Contract Exit Codes]
+- [x] CHK017 Are comparison requirements consistent that suitability is combined only when both places are within working hours? [Consistency, Spec FR-006, Data Model TimeComparison, Contract Successful Comparison Output]
+- [x] CHK018 Are alias ambiguity requirements consistent between supported alias data validation and CLI error behavior? [Consistency, Spec FR-010a, Data Model AliasCatalog, Contract Error Output]
 
 ## Acceptance Criteria Quality
 
-- [ ] CHK019 Can lookup success be objectively validated from the written requirements without inferring hidden output fields? [Measurability, Spec User Story 1, Spec SC-001, Contract Successful Lookup Output]
-- [ ] CHK020 Can comparison success be objectively validated from the written requirements without inferring hidden comparison rules? [Measurability, Spec User Story 2, Spec SC-002, Contract Successful Comparison Output]
-- [ ] CHK021 Can invalid, unsupported, unknown, and ambiguous input requirements be objectively validated from the documented error categories? [Measurability, Spec SC-003, Contract Error Output]
-- [ ] CHK022 Is the automated coverage expectation tied to every completed lookup, comparison, and invalid-input behavior? [Measurability, Spec SC-004, Constitution Quality Gates]
-- [ ] CHK023 Is the stable-label requirement measurable enough to decide whether a future output change is breaking v1 behavior? [Measurability, Spec SC-006, Contract Stability Requirements]
+- [x] CHK019 Can lookup success be objectively validated from the written requirements without inferring hidden output fields? [Measurability, Spec User Story 1, Spec SC-001, Contract Successful Lookup Output]
+- [x] CHK020 Can comparison success be objectively validated from the written requirements without inferring hidden comparison rules? [Measurability, Spec User Story 2, Spec SC-002, Contract Successful Comparison Output]
+- [x] CHK021 Can invalid, unsupported, unknown, and ambiguous input requirements be objectively validated from the documented error categories? [Measurability, Spec SC-003, Contract Error Output]
+- [x] CHK022 Is the automated coverage expectation tied to every completed lookup, comparison, and invalid-input behavior? [Measurability, Spec SC-004, Constitution Quality Gates]
+- [x] CHK023 Is the stable-label requirement measurable enough to decide whether a future output change is breaking v1 behavior? [Measurability, Spec SC-006, Contract Stability Requirements]
 
 ## Scenario Coverage
 
-- [ ] CHK024 Are primary lookup, comparison, and invalid-input journeys all represented as independently testable user stories? [Coverage, Spec User Scenarios]
-- [ ] CHK025 Are alternate valid-input paths covered for both canonical timezone identifiers and supported aliases? [Coverage, Spec FR-002, Spec FR-002a]
-- [ ] CHK026 Are exception scenarios covered for missing required place, too many comparison places, unsupported postal codes, unknown input, invalid timezone identifiers, and ambiguous aliases? [Coverage, Contract Error Output]
-- [ ] CHK027 Are same-timezone and different-calendar-date comparison scenarios addressed in requirements or edge cases? [Coverage, Spec Edge Cases, Data Model TimeComparison]
-- [ ] CHK028 Are daylight-saving or offset-transition scenarios covered sufficiently to require the offset that applies at the evaluation moment? [Coverage, Spec User Story 1, Data Model ResolvedPlace]
+- [x] CHK024 Are primary lookup, comparison, and invalid-input journeys all represented as independently testable user stories? [Coverage, Spec User Scenarios]
+- [x] CHK025 Are alternate valid-input paths covered for both canonical timezone identifiers and supported aliases? [Coverage, Spec FR-002, Spec FR-002a]
+- [x] CHK026 Are exception scenarios covered for missing required place, too many comparison places, unsupported postal codes, unknown input, invalid timezone identifiers, and ambiguous aliases? [Coverage, Contract Error Output]
+- [x] CHK027 Are same-timezone and different-calendar-date comparison scenarios addressed in requirements or edge cases? [Coverage, Spec Edge Cases, Data Model TimeComparison]
+- [x] CHK028 Are daylight-saving or offset-transition scenarios covered sufficiently to require the offset that applies at the evaluation moment? [Coverage, Spec User Story 1, Data Model ResolvedPlace]
 
 ## Edge Case Coverage
 
-- [ ] CHK029 Are working-hours boundary cases documented for exactly 09:00 and exactly 17:00 local time? [Edge Case, Spec Edge Cases, Spec FR-007]
-- [ ] CHK030 Are ambiguous aliases with and without safe match lists both addressed in requirements? [Edge Case, Spec Edge Cases, Spec FR-010a]
-- [ ] CHK031 Are requirements clear for a comparison where one place is inside working hours and the other is outside? [Edge Case, Spec Edge Cases, Spec User Story 2]
-- [ ] CHK032 Are requirements clear for local-date differences caused by timezone offsets? [Edge Case, Spec Edge Cases, Data Model TimeComparison]
+- [x] CHK029 Are working-hours boundary cases documented for exactly 09:00 and exactly 17:00 local time? [Edge Case, Spec Edge Cases, Spec FR-007]
+- [x] CHK030 Are ambiguous aliases with and without safe match lists both addressed in requirements? [Edge Case, Spec Edge Cases, Spec FR-010a]
+- [x] CHK031 Are requirements clear for a comparison where one place is inside working hours and the other is outside? [Edge Case, Spec Edge Cases, Spec User Story 2]
+- [x] CHK032 Are requirements clear for local-date differences caused by timezone offsets? [Edge Case, Spec Edge Cases, Data Model TimeComparison]
 
 ## Dependencies & Assumptions
 
-- [ ] CHK033 Are local alias data versioning and validation expectations documented clearly enough to support future alias changes? [Dependency, Plan Storage, Data Model AliasCatalog]
-- [ ] CHK034 Are assumptions about current-moment evaluation documented consistently across spec, plan, and data model? [Assumption, Spec Assumptions, Data Model ResolvedPlace]
-- [ ] CHK035 Are constraints against external APIs, databases, and network access stated in both planning context and requirement scope? [Dependency, Plan Constraints, Research Decisions]
-- [ ] CHK036 Are testability boundaries documented so domain logic requirements are distinguishable from CLI parsing and output requirements? [Assumption, Spec FR-012, Plan Structure Decision]
+- [x] CHK033 Are local alias data versioning and validation expectations documented clearly enough to support future alias changes? [Dependency, Plan Storage, Data Model AliasCatalog]
+- [x] CHK034 Are assumptions about current-moment evaluation documented consistently across spec, plan, and data model? [Assumption, Spec Assumptions, Data Model ResolvedPlace]
+- [x] CHK035 Are constraints against external APIs, databases, and network access stated in both planning context and requirement scope? [Dependency, Plan Constraints, Research Decisions]
+- [x] CHK036 Are testability boundaries documented so domain logic requirements are distinguishable from CLI parsing and output requirements? [Assumption, Spec FR-012, Plan Structure Decision]
 
 ## Ambiguities & Conflicts
 
-- [ ] CHK037 Is there any unresolved ambiguity between "supported alias" and arbitrary place-name lookup? [Ambiguity, Spec FR-002a, Data Model SupportedAlias]
-- [ ] CHK038 Is there any conflict between human-readable output and future automation expectations, or is machine-readable output clearly deferred? [Conflict, Research Fixed Output Decision]
-- [ ] CHK039 Is there any conflict between local alias ambiguity modeling and the requirement that each supported alias resolve to exactly one timezone? [Conflict, Spec FR-002a, Data Model AliasCatalog]
-- [ ] CHK040 Is there any remaining vague wording such as "easy", "clear", or "small" that lacks enough requirement-level criteria for v1 decisions? [Ambiguity, Spec Input, Spec FR-002a]
+- [x] CHK037 Is there any unresolved ambiguity between "supported alias" and arbitrary place-name lookup? [Ambiguity, Spec FR-002a, Data Model SupportedAlias]
+- [x] CHK038 Is there any conflict between human-readable output and future automation expectations, or is machine-readable output clearly deferred? [Conflict, Research Fixed Output Decision]
+- [x] CHK039 Is there any conflict between local alias ambiguity modeling and the requirement that each supported alias resolve to exactly one timezone? [Conflict, Spec FR-002a, Data Model AliasCatalog]
+- [x] CHK040 Is there any remaining vague wording such as "easy", "clear", or "small" that lacks enough requirement-level criteria for v1 decisions? [Ambiguity, Spec Input, Spec FR-002a]
 
 ## Post-Clarification Requirement Precision
 
-- [ ] CHK041 Are alias support boundaries specified as a fixed curated repository file rather than an open-ended place-name source? [Clarity, Spec FR-002a, Data Model SupportedAlias]
-- [ ] CHK042 Are the required alias record fields fully specified for alias, normalized key, display name, and canonical IANA timezone identifier? [Completeness, Spec FR-002b, Data Model SupportedAlias]
-- [ ] CHK043 Are alias maintenance requirements clear about file version changes, uniqueness, valid IANA identifiers, and ambiguity validation before release? [Completeness, Spec FR-018, Data Model AliasCatalog]
-- [ ] CHK044 Are alias maintenance requirements consistent with the no-network and no-database constraints in the plan and research decisions? [Consistency, Spec FR-018, Plan Constraints, Research Local Alias Data Decision]
-- [ ] CHK045 Is the distinction between supported aliases, arbitrary place names, and Mexican postal codes explicitly documented? [Clarity, Spec FR-002a, Spec FR-009, Spec Assumptions]
-- [ ] CHK046 Are lookup output labels specified exactly enough to prevent accidental label drift? [Clarity, Spec FR-013, Contract Successful Lookup Output]
-- [ ] CHK047 Are comparison output labels specified exactly enough to prevent accidental label drift? [Clarity, Spec FR-014, Contract Successful Comparison Output]
-- [ ] CHK048 Are required field presence expectations for light automation documented without implying machine-readable output support? [Consistency, Spec FR-017, Contract Stability Requirements]
-- [ ] CHK049 Are successful output requirements consistent between spec labels and contract label examples? [Consistency, Spec FR-013, Spec FR-014, Contract Outputs]
-- [ ] CHK050 Are exit code categories specified distinctly for success, invalid input, unsupported input, unknown input, and ambiguous input? [Completeness, Spec FR-016, Contract Exit Codes]
-- [ ] CHK051 Are error scenarios mapped unambiguously to the documented exit code categories? [Clarity, Spec FR-016, Contract Error Output]
-- [ ] CHK052 Are invalid input requirements clear enough to distinguish malformed timezone identifiers and missing or excessive command arguments from unsupported or unknown values? [Clarity, Spec FR-010, Spec FR-016, Contract Exit Codes]
-- [ ] CHK053 Are unsupported input requirements clear enough to classify Mexican postal codes separately from unknown place names? [Clarity, Spec FR-009, Spec FR-016, Contract Error Output]
-- [ ] CHK054 Are ambiguous input requirements clear enough to require exit code `4` without interactive prompting or automatic selection? [Clarity, Spec FR-010a, Spec FR-016, Contract Exit Codes]
-- [ ] CHK055 Are success criteria updated to measure exit-code mapping coverage for every failure category? [Measurability, Spec SC-007]
-- [ ] CHK056 Are success criteria updated to measure alias maintenance review for every alias data change? [Measurability, Spec SC-008]
-- [ ] CHK057 Are edge cases defined for invalid alias data such as duplicate normalized aliases and invalid timezone identifiers? [Edge Case, Spec Edge Cases, Spec FR-018]
-- [ ] CHK058 Are requirements consistent that output is human-readable only while labels and field presence remain stable for light automation? [Consistency, Spec FR-017, Contract Stability Requirements]
-- [ ] CHK059 Are requirements clear that alias support is determined by normalized alias keys in the curated file, not by fuzzy matching or external lookup? [Ambiguity, Spec FR-002a, Data Model AliasCatalog]
-- [ ] CHK060 Are data-model validation rules aligned with every alias maintenance requirement added to the spec? [Consistency, Spec FR-018, Data Model AliasCatalog]
+- [x] CHK041 Are alias support boundaries specified as a fixed curated repository file rather than an open-ended place-name source? [Clarity, Spec FR-002a, Data Model SupportedAlias]
+- [x] CHK042 Are the required alias record fields fully specified for alias, normalized key, display name, and canonical IANA timezone identifier? [Completeness, Spec FR-002b, Data Model SupportedAlias]
+- [x] CHK043 Are alias maintenance requirements clear about file version changes, uniqueness, valid IANA identifiers, and ambiguity validation before release? [Completeness, Spec FR-018, Data Model AliasCatalog]
+- [x] CHK044 Are alias maintenance requirements consistent with the no-network and no-database constraints in the plan and research decisions? [Consistency, Spec FR-018, Plan Constraints, Research Local Alias Data Decision]
+- [x] CHK045 Is the distinction between supported aliases, arbitrary place names, and Mexican postal codes explicitly documented? [Clarity, Spec FR-002a, Spec FR-009, Spec Assumptions]
+- [x] CHK046 Are lookup output labels specified exactly enough to prevent accidental label drift? [Clarity, Spec FR-013, Contract Successful Lookup Output]
+- [x] CHK047 Are comparison output labels specified exactly enough to prevent accidental label drift? [Clarity, Spec FR-014, Contract Successful Comparison Output]
+- [x] CHK048 Are required field presence expectations for light automation documented without implying machine-readable output support? [Consistency, Spec FR-017, Contract Stability Requirements]
+- [x] CHK049 Are successful output requirements consistent between spec labels and contract label examples? [Consistency, Spec FR-013, Spec FR-014, Contract Outputs]
+- [x] CHK050 Are exit code categories specified distinctly for success, invalid input, unsupported input, unknown input, and ambiguous input? [Completeness, Spec FR-016, Contract Exit Codes]
+- [x] CHK051 Are error scenarios mapped unambiguously to the documented exit code categories? [Clarity, Spec FR-016, Contract Error Output]
+- [x] CHK052 Are invalid input requirements clear enough to distinguish malformed timezone identifiers and missing or excessive command arguments from unsupported or unknown values? [Clarity, Spec FR-010, Spec FR-016, Contract Exit Codes]
+- [x] CHK053 Are unsupported input requirements clear enough to classify Mexican postal codes separately from unknown place names? [Clarity, Spec FR-009, Spec FR-016, Contract Error Output]
+- [x] CHK054 Are ambiguous input requirements clear enough to require exit code `4` without interactive prompting or automatic selection? [Clarity, Spec FR-010a, Spec FR-016, Contract Exit Codes]
+- [x] CHK055 Are success criteria updated to measure exit-code mapping coverage for every failure category? [Measurability, Spec SC-007]
+- [x] CHK056 Are success criteria updated to measure alias maintenance review for every alias data change? [Measurability, Spec SC-008]
+- [x] CHK057 Are edge cases defined for invalid alias data such as duplicate normalized aliases and invalid timezone identifiers? [Edge Case, Spec Edge Cases, Spec FR-018]
+- [x] CHK058 Are requirements consistent that output is human-readable only while labels and field presence remain stable for light automation? [Consistency, Spec FR-017, Contract Stability Requirements]
+- [x] CHK059 Are requirements clear that alias support is determined by normalized alias keys in the curated file, not by fuzzy matching or external lookup? [Ambiguity, Spec FR-002a, Data Model AliasCatalog]
+- [x] CHK060 Are data-model validation rules aligned with every alias maintenance requirement added to the spec? [Consistency, Spec FR-018, Data Model AliasCatalog]
 
 ## Notes
 

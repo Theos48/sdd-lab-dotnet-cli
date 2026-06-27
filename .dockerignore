@@ -1,0 +1,11 @@
+.git/
+.dockerignore
+Dockerfile*
+bin/
+obj/
+TestResults/
+coverage/
+*.log*
+.env
+.env.*
+!.env.example
