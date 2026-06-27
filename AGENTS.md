@@ -30,6 +30,10 @@
   - No borres volumenes, caches ni datos persistentes sin aprobacion explicita.
   - No ejecutes `docker compose down -v`.
   - No cambies `TargetFramework`, versiones de paquetes ni la estructura de la solucion salvo que la tarea lo pida de forma explicita.
+  - Mantén la logica de dominio separada de la entrada/salida de consola.
+  - Cubre cada comportamiento terminado con pruebas automatizadas.
+  - Las entradas invalidas deben producir mensajes claros y codigos de salida distintos de cero.
+  - No introduzcas bases de datos, servicios en segundo plano, stacks web ni infraestructura extra salvo que la especificacion activa lo requiera.
 
   ## Flujo normal
 
@@ -40,21 +44,28 @@
   make test
   make lint
   make dev
+  ```
 
   Si necesitas una shell dentro del contenedor:
 
+  ```bash
   make shell
+  ```
 
   Para detener el entorno sin borrar datos:
 
+  ```bash
   make stop
+  ```
 
   ## Verificacion
 
   Antes de cerrar cambios de codigo o configuracion, ejecuta:
 
+  ```bash
   make test
   make lint
+  ```
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,

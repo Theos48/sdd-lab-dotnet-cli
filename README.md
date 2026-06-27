@@ -19,6 +19,8 @@
   - el SDK de `.NET` viva dentro del contenedor
   - las dependencias se restauren desde el contenedor
   - las pruebas y validaciones se ejecuten con comandos `make`
+  - la logica de dominio quede separada de la entrada/salida de consola
+  - las entradas invalidas fallen con mensajes claros y codigos distintos de cero
 
   En el estado actual, la app es una consola minima y el proyecto sirve como base
   para seguir desarrollando la CLI.
@@ -50,12 +52,15 @@
   make test
   make lint
   make stop
+  ```
 
   ## Instalar dependencias del laboratorio
 
   Restaura las dependencias NuGet del proyecto dentro del contenedor:
 
+  ```bash
   make install
+  ```
 
   Esto ejecuta dotnet restore dentro del servicio app.
 
@@ -63,7 +68,9 @@
 
   Ejecuta la CLI desde el contenedor:
 
+  ```bash
   make dev
+  ```
 
   En el estado actual, este comando corre el proyecto src/TimezoneCli.
 
@@ -71,7 +78,9 @@
 
   Ejecuta las pruebas automatizadas del repositorio:
 
+  ```bash
   make test
+  ```
 
   Esto corre dotnet test dentro del contenedor.
 
@@ -79,20 +88,35 @@
 
   Verifica el formato del codigo sin modificar archivos:
 
+  ```bash
   make lint
+  ```
 
   Esto ejecuta:
 
+  ```bash
   dotnet format --verify-no-changes
+  ```
+
+  ## Reglas de desarrollo
+
+  - Usa `make` como interfaz estable del proyecto.
+  - Mantén el SDK de `.NET` dentro del contenedor; no instales `.NET` en el host.
+  - Cubre cada comportamiento terminado con pruebas automatizadas.
+  - Mantén la logica de dominio separada de argumentos, stdout, stderr y codigos de salida.
+  - Antes de cerrar cambios, ejecuta `make test` y `make lint`.
 
   ## Parar el entorno
 
   Detiene el entorno de Compose sin borrar volumenes:
 
+  ```bash
   make stop
+  ```
 
   ## Comandos disponibles
 
+  ```bash
   make install
   make dev
   make test
@@ -100,6 +124,7 @@
   make shell
   make stop
   make clean
+  ```
 
   ## Estructura del proyecto
 

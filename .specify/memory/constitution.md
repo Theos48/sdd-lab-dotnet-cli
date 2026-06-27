@@ -1,50 +1,99 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+Version change: template -> 1.0.0
+Modified principles:
+- PRINCIPLE_1_NAME -> I. Containerized Reproducibility
+- PRINCIPLE_2_NAME -> II. Make-Driven CLI Contract
+- PRINCIPLE_3_NAME -> III. Testable Domain Boundaries
+- PRINCIPLE_4_NAME -> IV. Explicit Failure Semantics
+- PRINCIPLE_5_NAME -> V. Simplicity and Scope Control
+Added sections:
+- Host and Infrastructure Boundaries
+- Development Workflow and Quality Gates
+Removed sections:
+- Placeholder template comments and undefined sections
+Templates requiring updates:
+- ✅ updated: .specify/templates/plan-template.md
+- ✅ updated: .specify/templates/spec-template.md
+- ✅ updated: .specify/templates/tasks-template.md
+- ✅ updated: README.md
+- ✅ updated: AGENTS.md
+Follow-up TODOs: none
+-->
+
+# TimezoneCli Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Containerized Reproducibility
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+The project MUST remain a minimal, reproducible .NET 8 CLI lab. Build, run,
+test, lint, and development flows MUST execute through `make` targets backed by
+Docker Compose. The Fedora host MUST NOT require a project .NET SDK or runtime.
+This keeps the lab portable, auditable, and free from project-specific host
+state.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Make-Driven CLI Contract
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+`make` is the stable project interface. CLI behavior MUST stay consistent in
+arguments, standard output, standard error, and exit-code semantics. Plans and
+tasks MUST use existing `Makefile` targets before introducing ad hoc commands.
+This creates one repeatable workflow for humans, agents, and automation.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Testable Domain Boundaries
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Domain logic MUST remain separate from console input and output. Completed
+behavior MUST be covered by automated tests that can validate behavior without
+terminal coupling. This preserves fast feedback and prevents presentation
+details from hiding business-rule defects.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Explicit Failure Semantics
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Invalid input MUST fail explicitly with clear user-facing messages and non-zero
+exit codes. Error behavior MUST be covered by automated tests whenever it is
+part of completed behavior. This makes CLI failures predictable for both people
+and scripts.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Simplicity and Scope Control
+
+The default implementation path MUST be the simplest design that preserves
+clarity, testability, and reproducibility. Features MUST NOT introduce
+databases, background services, web stacks, or extra infrastructure unless the
+active specification explicitly requires them. When principles conflict,
+correctness, testability, and operational simplicity take precedence over speed
+of delivery or feature expansion.
+
+## Host and Infrastructure Boundaries
+
+The host environment is reserved for cross-project tools only. Project-specific
+runtimes, SDKs, databases, and services belong inside the containerized lab
+unless an approved exception is documented. `Dockerfile`, `compose.yaml`,
+`global.json`, project files, and `Makefile` define the supported execution
+environment. Changes to target frameworks, package versions, solution structure,
+volumes, or persistent data require explicit specification or plan justification.
+
+## Development Workflow and Quality Gates
+
+Every implementation plan MUST include a Constitution Check covering:
+containerized execution, `make` usage, domain and console separation, automated
+test coverage, explicit invalid-input behavior, CLI compatibility, and
+infrastructure scope. Every task list MUST include automated tests for completed
+behavior and final verification with `make test` and `make lint`. Work MUST NOT
+be closed until both commands pass or a blocking issue is documented with the
+exact command and failure.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes conflicting project practices and templates.
+Specifications and implementation plans MUST justify any exception before code
+is merged. Amendments require updating this file, adding a Sync Impact Report,
+propagating affected templates or runtime guidance, and incrementing the
+constitution version.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Versioning follows semantic versioning for governance changes: MAJOR for
+backward-incompatible principle removals or redefinitions, MINOR for new
+principles or materially expanded guidance, and PATCH for clarifications that do
+not change obligations. Reviews MUST verify constitution compliance before
+approval.
+
+**Version**: 1.0.0 | **Ratified**: 2026-06-26 | **Last Amended**: 2026-06-26

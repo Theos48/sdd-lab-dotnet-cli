@@ -77,6 +77,7 @@
 
 - What happens when [boundary condition]?
 - How does system handle [error scenario]?
+- What clear message and non-zero exit code are produced for invalid CLI input?
 
 ## Requirements *(mandatory)*
 
@@ -92,6 +93,9 @@
 - **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
 - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
 - **FR-005**: System MUST [behavior, e.g., "log all security events"]
+- **FR-006**: CLI behavior MUST define expected arguments, output, errors, and exit codes.
+- **FR-007**: Invalid input MUST fail with a clear message and a non-zero exit code.
+- **FR-008**: Domain behavior MUST be testable independently from console input/output.
 
 *Example of marking unclear requirements:*
 
@@ -116,6 +120,7 @@
 - **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
 - **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
 - **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
+- **SC-005**: All completed behavior is covered by automated tests and passes the required project checks.
 
 ## Assumptions
 
@@ -129,3 +134,5 @@
 - [Assumption about scope boundaries, e.g., "Mobile support is out of scope for v1"]
 - [Assumption about data/environment, e.g., "Existing authentication system will be reused"]
 - [Dependency on existing system/service, e.g., "Requires access to the existing user profile API"]
+- The feature runs through existing `make` and Docker Compose workflows.
+- No database, background service, web stack, or extra infrastructure is introduced unless explicitly required above.
