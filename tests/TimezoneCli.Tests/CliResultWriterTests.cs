@@ -21,6 +21,38 @@ public sealed partial class CliResultWriterTests
     }
 
     [Fact]
+    public void Lookup_preserves_place_and_timezone_labels_for_supported_alias()
+    {
+        var result = CliResultWriter.Lookup(
+            Place(
+                "Mexico City",
+                "America/Mexico_City",
+                new DateOnly(2026, 6, 27),
+                new TimeOnly(9, 30),
+                TimeSpan.FromHours(-6),
+                ResolvedPlaceSource.SupportedAlias));
+
+        Assert.Contains("Place: Mexico City", result.StdoutLines);
+        Assert.Contains("Timezone: America/Mexico_City", result.StdoutLines);
+    }
+
+    [Fact]
+    public void Lookup_preserves_place_and_timezone_labels_for_supported_postal_code()
+    {
+        var result = CliResultWriter.Lookup(
+            Place(
+                "01000",
+                "America/Mexico_City",
+                new DateOnly(2026, 6, 27),
+                new TimeOnly(9, 30),
+                TimeSpan.FromHours(-6),
+                ResolvedPlaceSource.SupportedMexicanPostalCode));
+
+        Assert.Contains("Place: 01000", result.StdoutLines);
+        Assert.Contains("Timezone: America/Mexico_City", result.StdoutLines);
+    }
+
+    [Fact]
     public void Comparison_writes_exact_labels_and_value_formats()
     {
         var comparison = new TimeComparison(
@@ -40,6 +72,26 @@ public sealed partial class CliResultWriterTests
         Assert.Contains("Compared working hours: within", result.StdoutLines);
         Assert.Contains("Time difference: +6:00", result.StdoutLines);
         Assert.Contains("Meeting suitability: suitable", result.StdoutLines);
+    }
+
+    [Fact]
+    public void Comparison_preserves_place_and_timezone_labels_for_supported_aliases()
+    {
+        var comparison = new TimeComparison(
+            Place("Mexico City", "America/Mexico_City", new DateOnly(2026, 1, 15), new TimeOnly(9, 0), TimeSpan.FromHours(-6), ResolvedPlaceSource.SupportedAlias),
+            Place("London", "Europe/London", new DateOnly(2026, 1, 15), new TimeOnly(15, 0), TimeSpan.Zero, ResolvedPlaceSource.SupportedAlias),
+            TimeSpan.FromHours(6),
+            new WorkingHoursAssessment(true, "weekday-within-hours"),
+            new WorkingHoursAssessment(true, "weekday-within-hours"),
+            true,
+            WorkingHoursWindow.Default);
+
+        var result = CliResultWriter.Comparison(comparison);
+
+        Assert.Contains("Place: Mexico City", result.StdoutLines);
+        Assert.Contains("Timezone: America/Mexico_City", result.StdoutLines);
+        Assert.Contains("Compared place: London", result.StdoutLines);
+        Assert.Contains("Compared timezone: Europe/London", result.StdoutLines);
     }
 
     [Fact]
@@ -63,7 +115,7 @@ public sealed partial class CliResultWriterTests
     [InlineData(ResolutionErrorKind.MissingPlace, null, ExitCodes.InvalidInput, "Error: --place is required.")]
     [InlineData(ResolutionErrorKind.InvalidTimezoneIdentifier, "Bad/Zone", ExitCodes.InvalidInput, "Error: invalid timezone identifier 'Bad/Zone'.")]
     [InlineData(ResolutionErrorKind.UnknownPlace, "Atlantis", ExitCodes.UnknownInput, "Error: unknown place 'Atlantis'.")]
-    [InlineData(ResolutionErrorKind.UnsupportedMexicanPostalCode, "01000", ExitCodes.UnsupportedInput, "Error: Mexican postal codes are not supported in v1.")]
+    [InlineData(ResolutionErrorKind.UnsupportedMexicanPostalCode, "99999", ExitCodes.UnsupportedInput, "Error: Mexican postal code '99999' is not supported in v1.")]
     [InlineData(ResolutionErrorKind.TooManyComparisonPlaces, null, ExitCodes.InvalidInput, "Error: only one comparison place is supported in v1.")]
     [InlineData(ResolutionErrorKind.MissingWorkingHoursPair, null, ExitCodes.InvalidInput, "Error: --working-hours-start and --working-hours-end must be provided together.")]
     [InlineData(ResolutionErrorKind.WorkingHoursWithoutComparison, null, ExitCodes.InvalidInput, "Error: working-hours options require --compare.")]
@@ -93,13 +145,24 @@ public sealed partial class CliResultWriterTests
         Assert.Contains("Known matches: City A (America/Mexico_City), City B (America/New_York)", result.StderrLines);
     }
 
+    [Fact]
+    public void Error_lists_supported_mexican_postal_codes_for_unsupported_postal_code()
+    {
+        var result = CliResultWriter.Error(ResolutionError.UnsupportedMexicanPostalCode("99999"));
+
+        Assert.Equal(ExitCodes.UnsupportedInput, result.ExitCode);
+        Assert.Contains("Supported Mexican postal codes: 01000, 64000, 44100", result.StderrLines);
+        Assert.Contains("Use an IANA timezone such as America/Mexico_City.", result.StderrLines);
+    }
+
     private static ResolvedPlace Place(
         string displayName,
         string timeZoneId,
         DateOnly localDate,
         TimeOnly localTime,
-        TimeSpan utcOffset) =>
-        new(displayName, timeZoneId, localDate, localTime, utcOffset, ResolvedPlaceSource.TimezoneIdentifier);
+        TimeSpan utcOffset,
+        ResolvedPlaceSource source = ResolvedPlaceSource.TimezoneIdentifier) =>
+        new(displayName, timeZoneId, localDate, localTime, utcOffset, source);
 
     [GeneratedRegex("^Local date: \\d{4}-\\d{2}-\\d{2}$")]
     private static partial Regex DateLineRegex();

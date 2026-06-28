@@ -109,6 +109,22 @@
   - `new york` -> `America/New_York`
   - `tokyo` -> `Asia/Tokyo`
 
+  Codigos postales mexicanos soportados en v1:
+
+  - `01000` -> `America/Mexico_City`
+  - `64000` -> `America/Monterrey`
+  - `44100` -> `America/Mexico_City`
+
+  Ejemplo con codigo postal mexicano soportado:
+
+  ```bash
+  make dev ARGS="--place 01000"
+  ```
+
+  Los demas codigos postales mexicanos de cinco digitos no se infieren ni se
+  geocodifican. La CLI falla explicitamente con codigo de salida `2` y lista
+  los codigos soportados.
+
   Codigos de salida:
 
   - `0`: exito
@@ -116,9 +132,6 @@
   - `2`: entrada no soportada, incluidos codigos postales mexicanos
   - `3`: lugar desconocido
   - `4`: entrada ambigua
-
-  Los codigos postales mexicanos, por ejemplo `01000`, no se resuelven en v1.
-  La CLI falla explicitamente y sugiere usar un timezone IANA.
 
   ## Correr pruebas
 
