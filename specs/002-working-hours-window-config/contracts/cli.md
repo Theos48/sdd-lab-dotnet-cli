@@ -131,6 +131,13 @@ Working-hours flag used without comparison:
 Error: working-hours options require --compare.
 ```
 
+Working-hours flag missing its value:
+
+```text
+Error: --working-hours-start requires a value.
+Use HH:mm 24-hour format, for example 09:00.
+```
+
 Malformed working-hours value:
 
 ```text

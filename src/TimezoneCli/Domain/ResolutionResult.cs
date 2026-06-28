@@ -10,6 +10,7 @@ public enum ResolutionErrorKind
     TooManyComparisonPlaces,
     MissingWorkingHoursPair,
     WorkingHoursWithoutComparison,
+    MissingWorkingHoursValue,
     InvalidWorkingHoursTime,
     InvalidWorkingHoursRange,
 }
@@ -47,6 +48,9 @@ public sealed record ResolutionError(
 
     public static ResolutionError WorkingHoursWithoutComparison() =>
         new(ResolutionErrorKind.WorkingHoursWithoutComparison);
+
+    public static ResolutionError MissingWorkingHoursValue(string input) =>
+        new(ResolutionErrorKind.MissingWorkingHoursValue, input);
 
     public static ResolutionError InvalidWorkingHoursTime(string input) =>
         new(ResolutionErrorKind.InvalidWorkingHoursTime, input);

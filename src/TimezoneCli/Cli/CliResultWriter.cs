@@ -116,6 +116,11 @@ public static class CliResultWriter
             [
                 "Error: working-hours options require --compare.",
             ],
+            ResolutionErrorKind.MissingWorkingHoursValue when error.Input is not null =>
+            [
+                $"Error: {error.Input} requires a value.",
+                "Use HH:mm 24-hour format, for example 09:00.",
+            ],
             ResolutionErrorKind.InvalidWorkingHoursTime when error.Input is not null =>
             [
                 $"Error: invalid working-hours time '{error.Input}'.",

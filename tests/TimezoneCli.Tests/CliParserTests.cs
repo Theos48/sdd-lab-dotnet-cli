@@ -118,6 +118,19 @@ public sealed class CliParserTests
         Assert.Equal(ResolutionErrorKind.MissingWorkingHoursPair, result.Error!.Kind);
     }
 
+    [Theory]
+    [InlineData("--working-hours-start")]
+    [InlineData("--working-hours-end")]
+    public void Parse_rejects_working_hours_flag_without_value(string flag)
+    {
+        var result = CliParser.Parse(
+            ["--place", "America/Mexico_City", "--compare", "Europe/London", flag]);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ResolutionErrorKind.MissingWorkingHoursValue, result.Error!.Kind);
+        Assert.Equal(flag, result.Error.Input);
+    }
+
     [Fact]
     public void Parse_rejects_working_hours_without_comparison()
     {

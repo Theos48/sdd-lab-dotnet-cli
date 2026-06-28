@@ -67,6 +67,7 @@ public sealed partial class CliResultWriterTests
     [InlineData(ResolutionErrorKind.TooManyComparisonPlaces, null, ExitCodes.InvalidInput, "Error: only one comparison place is supported in v1.")]
     [InlineData(ResolutionErrorKind.MissingWorkingHoursPair, null, ExitCodes.InvalidInput, "Error: --working-hours-start and --working-hours-end must be provided together.")]
     [InlineData(ResolutionErrorKind.WorkingHoursWithoutComparison, null, ExitCodes.InvalidInput, "Error: working-hours options require --compare.")]
+    [InlineData(ResolutionErrorKind.MissingWorkingHoursValue, "--working-hours-start", ExitCodes.InvalidInput, "Error: --working-hours-start requires a value.")]
     [InlineData(ResolutionErrorKind.InvalidWorkingHoursTime, "bad", ExitCodes.InvalidInput, "Error: invalid working-hours time 'bad'.")]
     [InlineData(ResolutionErrorKind.InvalidWorkingHoursRange, null, ExitCodes.InvalidInput, "Error: --working-hours-end must be later than --working-hours-start.")]
     public void Error_maps_message_and_exit_code(

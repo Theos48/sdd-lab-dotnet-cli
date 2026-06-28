@@ -68,7 +68,7 @@ public static class CliParser
                 if (!TryReadValue(args, ref i, out workingHoursStart))
                 {
                     return ResolutionResult<CliOptions>.Failure(
-                        ResolutionError.InvalidWorkingHoursTime("--working-hours-start"));
+                        ResolutionError.MissingWorkingHoursValue("--working-hours-start"));
                 }
 
                 continue;
@@ -85,7 +85,7 @@ public static class CliParser
                 if (!TryReadValue(args, ref i, out workingHoursEnd))
                 {
                     return ResolutionResult<CliOptions>.Failure(
-                        ResolutionError.InvalidWorkingHoursTime("--working-hours-end"));
+                        ResolutionError.MissingWorkingHoursValue("--working-hours-end"));
                 }
 
                 continue;
