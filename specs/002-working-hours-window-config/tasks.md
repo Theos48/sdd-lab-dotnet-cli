@@ -219,3 +219,7 @@ Task: "T028 [US3] Add working-hours exit-code mapping tests in tests/TimezoneCli
 - Do not install .NET on the host; use Makefile and Docker Compose workflows.
 - Do not add databases, background services, web stacks, external APIs, or persistent user configuration.
 - Closing implementation work requires `make test` and `make lint`.
+
+## Phase 7: Convergence
+
+- [X] T041 Support forwarding CLI arguments through `make dev` while preserving Docker Compose execution per Constitution II and plan target platform (partial)
