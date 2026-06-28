@@ -4,6 +4,7 @@ public enum ResolvedPlaceSource
 {
     TimezoneIdentifier,
     SupportedAlias,
+    SupportedMexicanPostalCode,
 }
 
 public sealed record ResolvedPlace(

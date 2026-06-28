@@ -1,8 +1,11 @@
 using System.Text.Json;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace TimezoneCli.Domain;
 
-public static class PlaceAliasCatalog
+public static partial class PlaceAliasCatalog
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -53,52 +56,94 @@ public static class PlaceAliasCatalog
         var timezoneResolver = new TimezoneResolver();
         foreach (var alias in catalog.Aliases)
         {
-            if (string.IsNullOrWhiteSpace(alias.Alias))
+            if (string.IsNullOrWhiteSpace(alias.Input))
             {
-                errors.Add("alias is required");
+                errors.Add("input is required");
             }
 
-            if (string.IsNullOrWhiteSpace(alias.NormalizedAlias))
+            if (string.IsNullOrWhiteSpace(alias.NormalizedInput))
             {
-                errors.Add($"normalized alias is required for '{alias.Alias}'");
+                errors.Add($"normalized input is required for '{alias.Input}'");
             }
 
-            if (Normalize(alias.Alias) != alias.NormalizedAlias)
+            if (!string.IsNullOrWhiteSpace(alias.Input)
+                && !string.IsNullOrWhiteSpace(alias.NormalizedInput)
+                && Normalize(alias.Input) != alias.NormalizedInput)
             {
-                errors.Add($"normalized alias mismatch for '{alias.Alias}'");
+                errors.Add($"normalized input mismatch for '{alias.Input}'");
             }
 
             if (string.IsNullOrWhiteSpace(alias.DisplayName))
             {
-                errors.Add($"display name is required for '{alias.Alias}'");
+                errors.Add($"display name is required for '{alias.Input}'");
             }
 
             if (timezoneResolver.TryResolve(alias.TimeZoneId) is null)
             {
-                errors.Add($"timezone '{alias.TimeZoneId}' is invalid for '{alias.Alias}'");
+                errors.Add($"timezone '{alias.TimeZoneId}' is invalid for '{alias.Input}'");
+            }
+
+            if (alias.Category is not SupportedAlias.AliasCategory and not SupportedAlias.MexicanPostalCodeCategory)
+            {
+                errors.Add($"category '{alias.Category}' is unsupported for '{alias.Input}'");
+            }
+
+            if (alias.Category == SupportedAlias.MexicanPostalCodeCategory
+                && !MexicanPostalCodeRegex().IsMatch(alias.Input))
+            {
+                errors.Add($"mexican postal code '{alias.Input}' is malformed");
+            }
+
+            if (alias.Category == SupportedAlias.AliasCategory
+                && MexicanPostalCodeRegex().IsMatch(alias.Input))
+            {
+                errors.Add($"alias '{alias.Input}' must not look like a Mexican postal code");
             }
         }
 
         if (!allowAmbiguous)
         {
             var duplicateKeys = catalog.Aliases
-                .GroupBy(alias => alias.NormalizedAlias)
+                .GroupBy(alias => alias.NormalizedInput)
                 .Where(group => group.Count() > 1)
                 .Select(group => group.Key);
 
             foreach (var key in duplicateKeys)
             {
-                errors.Add($"normalized alias '{key}' is duplicated");
+                errors.Add($"normalized input '{key}' is duplicated");
             }
         }
 
         return errors;
     }
 
-    public static string Normalize(string value) =>
-        string.Join(
-            ' ',
-            value.Trim().ToLowerInvariant().Split(
-                ' ',
-                StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+    public static string Normalize(string value)
+    {
+        var normalized = value.Trim().ToLowerInvariant().Normalize(NormalizationForm.FormD);
+        var builder = new System.Text.StringBuilder(normalized.Length);
+
+        foreach (var character in normalized)
+        {
+            var category = CharUnicodeInfo.GetUnicodeCategory(character);
+            if (category == UnicodeCategory.NonSpacingMark)
+            {
+                continue;
+            }
+
+            builder.Append(
+                char.IsWhiteSpace(character) || char.IsPunctuation(character) || char.IsSeparator(character)
+                    ? ' '
+                    : character);
+        }
+
+        return RepeatedWhitespaceRegex()
+            .Replace(builder.ToString().Normalize(NormalizationForm.FormC), " ")
+            .Trim();
+    }
+
+    [GeneratedRegex("^[0-9]{5}$", RegexOptions.CultureInvariant)]
+    private static partial Regex MexicanPostalCodeRegex();
+
+    [GeneratedRegex("\\s+", RegexOptions.CultureInvariant)]
+    private static partial Regex RepeatedWhitespaceRegex();
 }

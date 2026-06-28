@@ -87,9 +87,10 @@ public static class CliResultWriter
                 $"Error: unknown place '{error.Input}'.",
                 "Use an IANA timezone such as America/Mexico_City.",
             ],
-            ResolutionErrorKind.UnsupportedMexicanPostalCode =>
+            ResolutionErrorKind.UnsupportedMexicanPostalCode when error.Input is not null =>
             [
-                "Error: Mexican postal codes are not supported in v1.",
+                $"Error: Mexican postal code '{error.Input}' is not supported in v1.",
+                "Supported Mexican postal codes: 01000, 64000, 44100",
                 "Use an IANA timezone such as America/Mexico_City.",
             ],
             ResolutionErrorKind.AmbiguousPlace when error.KnownMatches.Count > 0 && error.Input is not null =>

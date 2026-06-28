@@ -9,10 +9,10 @@ dev:
 	docker compose run --rm app dotnet run --project src/TimezoneCli -- $(ARGS)
 
 test:
-	docker compose run --rm app dotnet test
+	docker compose run --rm app dotnet test tests/TimezoneCli.Tests/TimezoneCli.Tests.csproj
 
 lint:
-	docker compose run --rm app dotnet format --verify-no-changes
+	docker compose run --rm app dotnet format tests/TimezoneCli.Tests/TimezoneCli.Tests.csproj --verify-no-changes
 
 shell:
 	docker compose run --rm app sh

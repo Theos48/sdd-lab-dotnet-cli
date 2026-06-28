@@ -17,6 +17,20 @@ public sealed class PerformanceSmokeTests
         Assert.True(elapsed < TimeSpan.FromSeconds(10), $"Lookup took {elapsed}.");
     }
 
+    [Theory]
+    [InlineData("mexico city")]
+    [InlineData("01000")]
+    public void Supported_catalog_lookup_completes_under_fifteen_seconds(string input)
+    {
+        var service = CreateService();
+        ResolutionResult<ResolvedPlace>? result = null;
+
+        var elapsed = Measure(() => result = service.Lookup(input));
+
+        Assert.True(result!.IsSuccess);
+        Assert.True(elapsed < TimeSpan.FromSeconds(15), $"Catalog lookup took {elapsed}.");
+    }
+
     [Fact]
     public void Comparison_completes_under_fifteen_seconds()
     {

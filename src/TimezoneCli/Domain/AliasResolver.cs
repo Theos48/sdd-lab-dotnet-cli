@@ -13,14 +13,6 @@ public sealed partial class AliasResolver(AliasCatalog catalog, TimezoneResolver
         }
 
         var trimmed = rawInput.Trim();
-        var normalized = PlaceAliasCatalog.Normalize(trimmed);
-
-        if (MexicanPostalCodeRegex().IsMatch(normalized))
-        {
-            return ResolutionResult<PlaceResolution>.Failure(
-                ResolutionError.UnsupportedMexicanPostalCode(trimmed));
-        }
-
         var timeZone = timezoneResolver.TryResolve(trimmed);
         if (timeZone is not null)
         {
@@ -28,8 +20,9 @@ public sealed partial class AliasResolver(AliasCatalog catalog, TimezoneResolver
                 new PlaceResolution(timeZone.Id, timeZone.Id, ResolvedPlaceSource.TimezoneIdentifier));
         }
 
+        var normalized = PlaceAliasCatalog.Normalize(trimmed);
         var matches = catalog.Aliases
-            .Where(alias => alias.NormalizedAlias == normalized)
+            .Where(alias => alias.NormalizedInput == normalized)
             .ToList();
 
         if (matches.Count == 1)
@@ -46,7 +39,9 @@ public sealed partial class AliasResolver(AliasCatalog catalog, TimezoneResolver
                 new PlaceResolution(
                     alias.DisplayName,
                     aliasTimeZone.Id,
-                    ResolvedPlaceSource.SupportedAlias));
+                    alias.Category == SupportedAlias.MexicanPostalCodeCategory
+                        ? ResolvedPlaceSource.SupportedMexicanPostalCode
+                        : ResolvedPlaceSource.SupportedAlias));
         }
 
         if (matches.Count > 1)
@@ -59,6 +54,12 @@ public sealed partial class AliasResolver(AliasCatalog catalog, TimezoneResolver
                 ResolutionError.AmbiguousPlace(trimmed, knownMatches));
         }
 
+        if (MexicanPostalCodeRegex().IsMatch(trimmed))
+        {
+            return ResolutionResult<PlaceResolution>.Failure(
+                ResolutionError.UnsupportedMexicanPostalCode(trimmed));
+        }
+
         if (trimmed.Contains('/', StringComparison.Ordinal))
         {
             return ResolutionResult<PlaceResolution>.Failure(
@@ -69,6 +70,6 @@ public sealed partial class AliasResolver(AliasCatalog catalog, TimezoneResolver
             ResolutionError.UnknownPlace(trimmed));
     }
 
-    [GeneratedRegex("^\\d{5}$", RegexOptions.CultureInvariant)]
+    [GeneratedRegex("^[0-9]{5}$", RegexOptions.CultureInvariant)]
     private static partial Regex MexicanPostalCodeRegex();
 }

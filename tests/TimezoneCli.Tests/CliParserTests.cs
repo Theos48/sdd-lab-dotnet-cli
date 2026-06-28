@@ -201,4 +201,15 @@ public sealed class CliParserTests
         Assert.False(result.IsSuccess);
         Assert.Equal(ResolutionErrorKind.InvalidWorkingHoursTime, result.Error!.Kind);
     }
+
+    [Fact]
+    public void Parse_prioritizes_invalid_working_hours_over_place_resolution_errors()
+    {
+        var result = CliParser.Parse(
+            ["--place", "99999", "--compare", "nowhere", "--working-hours-start", "bad", "--working-hours-end", "17:00"]);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(ResolutionErrorKind.InvalidWorkingHoursTime, result.Error!.Kind);
+        Assert.Equal("bad", result.Error.Input);
+    }
 }

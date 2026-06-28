@@ -2,28 +2,53 @@
   "version": "1.0.0",
   "aliases": [
     {
-      "alias": "mexico city",
-      "normalizedAlias": "mexico city",
+      "input": "mexico city",
+      "normalizedInput": "mexico city",
       "displayName": "Mexico City",
-      "timeZoneId": "America/Mexico_City"
+      "timeZoneId": "America/Mexico_City",
+      "category": "alias"
     },
     {
-      "alias": "london",
-      "normalizedAlias": "london",
+      "input": "london",
+      "normalizedInput": "london",
       "displayName": "London",
-      "timeZoneId": "Europe/London"
+      "timeZoneId": "Europe/London",
+      "category": "alias"
     },
     {
-      "alias": "new york",
-      "normalizedAlias": "new york",
+      "input": "new york",
+      "normalizedInput": "new york",
       "displayName": "New York",
-      "timeZoneId": "America/New_York"
+      "timeZoneId": "America/New_York",
+      "category": "alias"
     },
     {
-      "alias": "tokyo",
-      "normalizedAlias": "tokyo",
+      "input": "tokyo",
+      "normalizedInput": "tokyo",
       "displayName": "Tokyo",
-      "timeZoneId": "Asia/Tokyo"
+      "timeZoneId": "Asia/Tokyo",
+      "category": "alias"
+    },
+    {
+      "input": "01000",
+      "normalizedInput": "01000",
+      "displayName": "01000",
+      "timeZoneId": "America/Mexico_City",
+      "category": "mexican-postal-code"
+    },
+    {
+      "input": "64000",
+      "normalizedInput": "64000",
+      "displayName": "64000",
+      "timeZoneId": "America/Monterrey",
+      "category": "mexican-postal-code"
+    },
+    {
+      "input": "44100",
+      "normalizedInput": "44100",
+      "displayName": "44100",
+      "timeZoneId": "America/Mexico_City",
+      "category": "mexican-postal-code"
     }
   ]
 }
