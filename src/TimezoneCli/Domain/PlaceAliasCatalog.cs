@@ -141,7 +141,7 @@ public static partial class PlaceAliasCatalog
             .Trim();
     }
 
-    [GeneratedRegex("^\\d{5}$", RegexOptions.CultureInvariant)]
+    [GeneratedRegex("^[0-9]{5}$", RegexOptions.CultureInvariant)]
     private static partial Regex MexicanPostalCodeRegex();
 
     [GeneratedRegex("\\s+", RegexOptions.CultureInvariant)]

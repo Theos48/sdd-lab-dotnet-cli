@@ -70,6 +70,6 @@ public sealed partial class AliasResolver(AliasCatalog catalog, TimezoneResolver
             ResolutionError.UnknownPlace(trimmed));
     }
 
-    [GeneratedRegex("^\\d{5}$", RegexOptions.CultureInvariant)]
+    [GeneratedRegex("^[0-9]{5}$", RegexOptions.CultureInvariant)]
     private static partial Regex MexicanPostalCodeRegex();
 }
