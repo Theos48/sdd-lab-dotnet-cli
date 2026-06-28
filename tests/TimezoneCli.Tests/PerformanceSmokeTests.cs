@@ -9,9 +9,11 @@ public sealed class PerformanceSmokeTests
     public void Lookup_completes_under_ten_seconds()
     {
         var service = CreateService();
+        ResolutionResult<ResolvedPlace>? result = null;
 
-        var elapsed = Measure(() => service.Lookup("America/Mexico_City"));
+        var elapsed = Measure(() => result = service.Lookup("America/Mexico_City"));
 
+        Assert.True(result!.IsSuccess);
         Assert.True(elapsed < TimeSpan.FromSeconds(10), $"Lookup took {elapsed}.");
     }
 
@@ -19,10 +21,25 @@ public sealed class PerformanceSmokeTests
     public void Comparison_completes_under_fifteen_seconds()
     {
         var service = CreateService();
+        ResolutionResult<TimeComparison>? result = null;
 
-        var elapsed = Measure(() => service.Compare("America/Mexico_City", "Europe/London"));
+        var elapsed = Measure(() => result = service.Compare("America/Mexico_City", "Europe/London"));
 
+        Assert.True(result!.IsSuccess);
         Assert.True(elapsed < TimeSpan.FromSeconds(15), $"Comparison took {elapsed}.");
+    }
+
+    [Fact]
+    public void Custom_working_hours_comparison_completes_under_fifteen_seconds()
+    {
+        var service = CreateService();
+        var window = new WorkingHoursWindow(new TimeOnly(8, 30), new TimeOnly(16, 45));
+        ResolutionResult<TimeComparison>? result = null;
+
+        var elapsed = Measure(() => result = service.Compare("America/Mexico_City", "Europe/London", window));
+
+        Assert.True(result!.IsSuccess);
+        Assert.True(elapsed < TimeSpan.FromSeconds(15), $"Custom comparison took {elapsed}.");
     }
 
     private static TimeSpan Measure(Action action)

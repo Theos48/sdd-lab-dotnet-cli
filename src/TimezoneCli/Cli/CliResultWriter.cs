@@ -27,6 +27,7 @@ public static class CliResultWriter
                 $"Local time: {comparison.RequestedPlace.LocalTime:HH\\:mm}",
                 $"UTC offset: {FormatOffset(comparison.RequestedPlace.UtcOffset)}",
                 $"Working hours: {FormatWorkingHours(comparison.RequestedWorkingHours)}",
+                $"Working hours window: {comparison.WorkingHoursWindow.Format()}",
                 string.Empty,
                 $"Compared place: {comparison.ComparisonPlace.DisplayName}",
                 $"Compared timezone: {comparison.ComparisonPlace.TimeZoneId}",
@@ -105,6 +106,30 @@ public static class CliResultWriter
             ResolutionErrorKind.TooManyComparisonPlaces =>
             [
                 "Error: only one comparison place is supported in v1.",
+            ],
+            ResolutionErrorKind.MissingWorkingHoursPair =>
+            [
+                "Error: --working-hours-start and --working-hours-end must be provided together.",
+                "Example: --working-hours-start 09:00 --working-hours-end 17:00",
+            ],
+            ResolutionErrorKind.WorkingHoursWithoutComparison =>
+            [
+                "Error: working-hours options require --compare.",
+            ],
+            ResolutionErrorKind.MissingWorkingHoursValue when error.Input is not null =>
+            [
+                $"Error: {error.Input} requires a value.",
+                "Use HH:mm 24-hour format, for example 09:00.",
+            ],
+            ResolutionErrorKind.InvalidWorkingHoursTime when error.Input is not null =>
+            [
+                $"Error: invalid working-hours time '{error.Input}'.",
+                "Use HH:mm 24-hour format, for example 09:00.",
+            ],
+            ResolutionErrorKind.InvalidWorkingHoursRange =>
+            [
+                "Error: --working-hours-end must be later than --working-hours-start.",
+                "Overnight and zero-length working-hours windows are not supported in v1.",
             ],
             _ =>
             [

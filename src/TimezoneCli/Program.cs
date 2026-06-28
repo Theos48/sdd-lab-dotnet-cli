@@ -23,7 +23,7 @@ try
             : Emit(CliResultWriter.Error(lookup.Error!));
     }
 
-    var comparison = service.Compare(options.Place, options.Compare);
+    var comparison = service.Compare(options.Place, options.Compare, options.WorkingHoursWindow);
     return comparison.IsSuccess
         ? Emit(CliResultWriter.Comparison(comparison.Value!))
         : Emit(CliResultWriter.Error(comparison.Error!));
