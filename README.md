@@ -75,16 +75,16 @@
   make dev
   ```
 
-  Para pasar argumentos a la CLI, usa `ARGS`:
+  Para pasar argumentos a la CLI, usa Docker Compose directamente:
 
   ```bash
-  make dev ARGS="--place America/Mexico_City"
+  docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City
   ```
 
   Comparacion entre dos lugares:
 
   ```bash
-  make dev ARGS="--place America/Mexico_City --compare Europe/London"
+  docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --compare Europe/London
   ```
 
   La comparacion usa horario laboral local de lunes a viernes, desde `09:00`
@@ -95,7 +95,7 @@
   limites en formato estricto `HH:mm`:
 
   ```bash
-  make dev ARGS="--place America/Mexico_City --compare Europe/London --working-hours-start 08:30 --working-hours-end 16:45"
+  docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --compare Europe/London --working-hours-start 08:30 --working-hours-end 16:45
   ```
 
   Las opciones `--working-hours-start` y `--working-hours-end` solo son validas

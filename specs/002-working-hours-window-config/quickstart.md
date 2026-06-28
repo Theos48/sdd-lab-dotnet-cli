@@ -36,7 +36,7 @@ Expected result: formatting verification passes with no changes required.
 ## Validate Default Comparison Output
 
 ```bash
-make dev ARGS="--place America/Mexico_City --compare Europe/London"
+docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --compare Europe/London
 ```
 
 Expected outcome:
@@ -48,7 +48,7 @@ Expected outcome:
 ## Validate Custom Working-Hours Comparison
 
 ```bash
-make dev ARGS="--place America/Mexico_City --compare Europe/London --working-hours-start 08:30 --working-hours-end 16:45"
+docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --compare Europe/London --working-hours-start 08:30 --working-hours-end 16:45
 ```
 
 Expected outcome:
@@ -62,7 +62,7 @@ Expected outcome:
 ## Validate Equals-Form Flags
 
 ```bash
-make dev ARGS="--place=America/Mexico_City --compare=Europe/London --working-hours-start=08:30 --working-hours-end=16:45"
+docker compose run --rm app dotnet run --project src/TimezoneCli -- --place=America/Mexico_City --compare=Europe/London --working-hours-start=08:30 --working-hours-end=16:45
 ```
 
 Expected outcome:
@@ -73,7 +73,7 @@ Expected outcome:
 ## Validate Missing Pair Error
 
 ```bash
-make dev ARGS="--place America/Mexico_City --compare Europe/London --working-hours-start 08:30"
+docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --compare Europe/London --working-hours-start 08:30
 ```
 
 Expected outcome:
@@ -85,7 +85,7 @@ Expected outcome:
 ## Validate Lookup-Only Error
 
 ```bash
-make dev ARGS="--place America/Mexico_City --working-hours-start 08:30 --working-hours-end 16:45"
+docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --working-hours-start 08:30 --working-hours-end 16:45
 ```
 
 Expected outcome:
@@ -96,7 +96,7 @@ Expected outcome:
 ## Validate Malformed Time Error
 
 ```bash
-make dev ARGS="--place America/Mexico_City --compare Europe/London --working-hours-start 9am --working-hours-end 17:00"
+docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --compare Europe/London --working-hours-start 9am --working-hours-end 17:00
 ```
 
 Expected outcome:
@@ -107,7 +107,7 @@ Expected outcome:
 ## Validate Invalid Range Error
 
 ```bash
-make dev ARGS="--place America/Mexico_City --compare Europe/London --working-hours-start 17:00 --working-hours-end 09:00"
+docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --compare Europe/London --working-hours-start 17:00 --working-hours-end 09:00
 ```
 
 Expected outcome:
@@ -120,7 +120,7 @@ Expected outcome:
 ## Validate Error Precedence
 
 ```bash
-make dev ARGS="--place Atlantis --compare Nowhere --working-hours-start bad --working-hours-end 17:00"
+docker compose run --rm app dotnet run --project src/TimezoneCli -- --place Atlantis --compare Nowhere --working-hours-start bad --working-hours-end 17:00
 ```
 
 Expected outcome:
