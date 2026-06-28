@@ -25,6 +25,17 @@ public sealed class PerformanceSmokeTests
         Assert.True(elapsed < TimeSpan.FromSeconds(15), $"Comparison took {elapsed}.");
     }
 
+    [Fact]
+    public void Custom_working_hours_comparison_completes_under_fifteen_seconds()
+    {
+        var service = CreateService();
+        var window = new WorkingHoursWindow(new TimeOnly(8, 30), new TimeOnly(16, 45));
+
+        var elapsed = Measure(() => service.Compare("America/Mexico_City", "Europe/London", window));
+
+        Assert.True(elapsed < TimeSpan.FromSeconds(15), $"Custom comparison took {elapsed}.");
+    }
+
     private static TimeSpan Measure(Action action)
     {
         var stopwatch = Stopwatch.StartNew();

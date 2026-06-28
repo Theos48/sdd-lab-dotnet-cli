@@ -8,6 +8,8 @@ public static class CliParser
     {
         string? place = null;
         string? compare = null;
+        string? workingHoursStart = null;
+        string? workingHoursEnd = null;
         var compareCount = 0;
 
         for (var i = 0; i < args.Length; i++)
@@ -61,6 +63,40 @@ public static class CliParser
                 continue;
             }
 
+            if (argument is "--working-hours-start")
+            {
+                if (!TryReadValue(args, ref i, out workingHoursStart))
+                {
+                    return ResolutionResult<CliOptions>.Failure(
+                        ResolutionError.InvalidWorkingHoursTime("--working-hours-start"));
+                }
+
+                continue;
+            }
+
+            if (argument.StartsWith("--working-hours-start=", StringComparison.Ordinal))
+            {
+                workingHoursStart = argument["--working-hours-start=".Length..];
+                continue;
+            }
+
+            if (argument is "--working-hours-end")
+            {
+                if (!TryReadValue(args, ref i, out workingHoursEnd))
+                {
+                    return ResolutionResult<CliOptions>.Failure(
+                        ResolutionError.InvalidWorkingHoursTime("--working-hours-end"));
+                }
+
+                continue;
+            }
+
+            if (argument.StartsWith("--working-hours-end=", StringComparison.Ordinal))
+            {
+                workingHoursEnd = argument["--working-hours-end=".Length..];
+                continue;
+            }
+
             if (compare is not null && !argument.StartsWith("--", StringComparison.Ordinal))
             {
                 return ResolutionResult<CliOptions>.Failure(
@@ -71,12 +107,36 @@ public static class CliParser
                 ResolutionError.InvalidArgument(argument));
         }
 
+        var hasWorkingHoursStart = workingHoursStart is not null;
+        var hasWorkingHoursEnd = workingHoursEnd is not null;
+        if (hasWorkingHoursStart != hasWorkingHoursEnd)
+        {
+            return ResolutionResult<CliOptions>.Failure(ResolutionError.MissingWorkingHoursPair());
+        }
+
+        if ((hasWorkingHoursStart || hasWorkingHoursEnd) && string.IsNullOrWhiteSpace(compare))
+        {
+            return ResolutionResult<CliOptions>.Failure(ResolutionError.WorkingHoursWithoutComparison());
+        }
+
+        WorkingHoursWindow? workingHoursWindow = null;
+        if (hasWorkingHoursStart && hasWorkingHoursEnd)
+        {
+            var parsedWindow = WorkingHoursWindow.Parse(workingHoursStart!, workingHoursEnd!);
+            if (!parsedWindow.IsSuccess)
+            {
+                return ResolutionResult<CliOptions>.Failure(parsedWindow.Error!);
+            }
+
+            workingHoursWindow = parsedWindow.Value!;
+        }
+
         if (string.IsNullOrWhiteSpace(place))
         {
             return ResolutionResult<CliOptions>.Failure(ResolutionError.MissingPlace());
         }
 
-        return ResolutionResult<CliOptions>.Success(new CliOptions(place, compare));
+        return ResolutionResult<CliOptions>.Success(new CliOptions(place, compare, workingHoursWindow));
     }
 
     private static bool TryReadValue(string[] args, ref int index, out string? value)

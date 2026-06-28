@@ -87,6 +87,21 @@
   docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --compare Europe/London
   ```
 
+  La comparacion usa horario laboral local de lunes a viernes, desde `09:00`
+  inclusive hasta antes de `17:00`, y muestra la ventana aplicada:
+  `Working hours window: 09:00-17:00`.
+
+  Para configurar una ventana de horario laboral por comando, proporciona ambos
+  limites en formato estricto `HH:mm`:
+
+  ```bash
+  docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --compare Europe/London --working-hours-start 08:30 --working-hours-end 16:45
+  ```
+
+  Las opciones `--working-hours-start` y `--working-hours-end` solo son validas
+  juntas y cuando se usa `--compare`. La hora final debe ser posterior a la hora
+  inicial; las ventanas nocturnas no se soportan en esta version.
+
   Aliases soportados en v1:
 
   - `mexico city` -> `America/Mexico_City`

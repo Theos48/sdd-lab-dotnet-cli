@@ -8,6 +8,10 @@ public enum ResolutionErrorKind
     UnsupportedMexicanPostalCode,
     AmbiguousPlace,
     TooManyComparisonPlaces,
+    MissingWorkingHoursPair,
+    WorkingHoursWithoutComparison,
+    InvalidWorkingHoursTime,
+    InvalidWorkingHoursRange,
 }
 
 public sealed record ResolutionError(
@@ -37,6 +41,18 @@ public sealed record ResolutionError(
 
     public static ResolutionError TooManyComparisonPlaces() =>
         new(ResolutionErrorKind.TooManyComparisonPlaces);
+
+    public static ResolutionError MissingWorkingHoursPair() =>
+        new(ResolutionErrorKind.MissingWorkingHoursPair);
+
+    public static ResolutionError WorkingHoursWithoutComparison() =>
+        new(ResolutionErrorKind.WorkingHoursWithoutComparison);
+
+    public static ResolutionError InvalidWorkingHoursTime(string input) =>
+        new(ResolutionErrorKind.InvalidWorkingHoursTime, input);
+
+    public static ResolutionError InvalidWorkingHoursRange() =>
+        new(ResolutionErrorKind.InvalidWorkingHoursRange);
 }
 
 public sealed record ResolutionResult<T>(T? Value, ResolutionError? Error)

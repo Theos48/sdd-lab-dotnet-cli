@@ -6,4 +6,5 @@ public sealed record TimeComparison(
     TimeSpan SignedTimeDifference,
     WorkingHoursAssessment RequestedWorkingHours,
     WorkingHoursAssessment ComparisonWorkingHours,
-    bool CombinedSuitability);
+    bool CombinedSuitability,
+    WorkingHoursWindow WorkingHoursWindow);

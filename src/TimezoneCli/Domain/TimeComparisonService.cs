@@ -16,8 +16,12 @@ public sealed class TimeComparisonService(
         return ResolutionResult<ResolvedPlace>.Success(CreateResolvedPlace(resolved.Value!));
     }
 
-    public ResolutionResult<TimeComparison> Compare(string requestedInput, string comparisonInput)
+    public ResolutionResult<TimeComparison> Compare(
+        string requestedInput,
+        string comparisonInput,
+        WorkingHoursWindow? workingHoursWindow = null)
     {
+        var activeWindow = workingHoursWindow ?? WorkingHoursWindow.Default;
         var requested = Lookup(requestedInput);
         if (!requested.IsSuccess)
         {
@@ -30,8 +34,8 @@ public sealed class TimeComparisonService(
             return ResolutionResult<TimeComparison>.Failure(comparison.Error!);
         }
 
-        var requestedWorkingHours = workingHoursPolicy.Assess(requested.Value!);
-        var comparisonWorkingHours = workingHoursPolicy.Assess(comparison.Value!);
+        var requestedWorkingHours = workingHoursPolicy.Assess(requested.Value!, activeWindow);
+        var comparisonWorkingHours = workingHoursPolicy.Assess(comparison.Value!, activeWindow);
         var signedTimeDifference = comparison.Value!.UtcOffset - requested.Value!.UtcOffset;
 
         return ResolutionResult<TimeComparison>.Success(
@@ -41,7 +45,8 @@ public sealed class TimeComparisonService(
                 signedTimeDifference,
                 requestedWorkingHours,
                 comparisonWorkingHours,
-                requestedWorkingHours.IsWithinWorkingHours && comparisonWorkingHours.IsWithinWorkingHours));
+                requestedWorkingHours.IsWithinWorkingHours && comparisonWorkingHours.IsWithinWorkingHours,
+                activeWindow));
     }
 
     private ResolvedPlace CreateResolvedPlace(PlaceResolution resolution)

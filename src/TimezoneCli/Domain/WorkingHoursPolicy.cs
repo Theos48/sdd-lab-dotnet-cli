@@ -2,10 +2,10 @@ namespace TimezoneCli.Domain;
 
 public sealed class WorkingHoursPolicy
 {
-    private static readonly TimeOnly Start = new(9, 0);
-    private static readonly TimeOnly End = new(17, 0);
+    public WorkingHoursAssessment Assess(ResolvedPlace place) =>
+        Assess(place, WorkingHoursWindow.Default);
 
-    public WorkingHoursAssessment Assess(ResolvedPlace place)
+    public WorkingHoursAssessment Assess(ResolvedPlace place, WorkingHoursWindow window)
     {
         var dayOfWeek = place.LocalDate.DayOfWeek;
         if (dayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
@@ -13,7 +13,7 @@ public sealed class WorkingHoursPolicy
             return new WorkingHoursAssessment(false, "weekend");
         }
 
-        if (place.LocalTime >= Start && place.LocalTime < End)
+        if (place.LocalTime >= window.Start && place.LocalTime < window.End)
         {
             return new WorkingHoursAssessment(true, "weekday-within-hours");
         }

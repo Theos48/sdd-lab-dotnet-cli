@@ -29,15 +29,34 @@ public sealed partial class CliResultWriterTests
             TimeSpan.FromHours(6),
             new WorkingHoursAssessment(true, "weekday-within-hours"),
             new WorkingHoursAssessment(true, "weekday-within-hours"),
-            true);
+            true,
+            WorkingHoursWindow.Default);
 
         var result = CliResultWriter.Comparison(comparison);
 
         Assert.Equal(ExitCodes.Success, result.ExitCode);
         Assert.Contains("Working hours: within", result.StdoutLines);
+        Assert.Contains("Working hours window: 09:00-17:00", result.StdoutLines);
         Assert.Contains("Compared working hours: within", result.StdoutLines);
         Assert.Contains("Time difference: +6:00", result.StdoutLines);
         Assert.Contains("Meeting suitability: suitable", result.StdoutLines);
+    }
+
+    [Fact]
+    public void Comparison_writes_custom_working_hours_window()
+    {
+        var comparison = new TimeComparison(
+            Place("Mexico City", "America/Mexico_City", new DateOnly(2026, 1, 15), new TimeOnly(8, 30), TimeSpan.FromHours(-6)),
+            Place("London", "Europe/London", new DateOnly(2026, 1, 15), new TimeOnly(14, 30), TimeSpan.Zero),
+            TimeSpan.FromHours(6),
+            new WorkingHoursAssessment(true, "weekday-within-hours"),
+            new WorkingHoursAssessment(true, "weekday-within-hours"),
+            true,
+            new WorkingHoursWindow(new TimeOnly(8, 30), new TimeOnly(16, 45)));
+
+        var result = CliResultWriter.Comparison(comparison);
+
+        Assert.Contains("Working hours window: 08:30-16:45", result.StdoutLines);
     }
 
     [Theory]
@@ -46,6 +65,10 @@ public sealed partial class CliResultWriterTests
     [InlineData(ResolutionErrorKind.UnknownPlace, "Atlantis", ExitCodes.UnknownInput, "Error: unknown place 'Atlantis'.")]
     [InlineData(ResolutionErrorKind.UnsupportedMexicanPostalCode, "01000", ExitCodes.UnsupportedInput, "Error: Mexican postal codes are not supported in v1.")]
     [InlineData(ResolutionErrorKind.TooManyComparisonPlaces, null, ExitCodes.InvalidInput, "Error: only one comparison place is supported in v1.")]
+    [InlineData(ResolutionErrorKind.MissingWorkingHoursPair, null, ExitCodes.InvalidInput, "Error: --working-hours-start and --working-hours-end must be provided together.")]
+    [InlineData(ResolutionErrorKind.WorkingHoursWithoutComparison, null, ExitCodes.InvalidInput, "Error: working-hours options require --compare.")]
+    [InlineData(ResolutionErrorKind.InvalidWorkingHoursTime, "bad", ExitCodes.InvalidInput, "Error: invalid working-hours time 'bad'.")]
+    [InlineData(ResolutionErrorKind.InvalidWorkingHoursRange, null, ExitCodes.InvalidInput, "Error: --working-hours-end must be later than --working-hours-start.")]
     public void Error_maps_message_and_exit_code(
         ResolutionErrorKind kind,
         string? input,
