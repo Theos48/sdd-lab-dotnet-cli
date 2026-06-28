@@ -223,3 +223,7 @@ Task: "T028 [US3] Add working-hours exit-code mapping tests in tests/TimezoneCli
 ## Phase 7: Convergence
 
 - [X] T041 Support forwarding CLI arguments through `make dev` while preserving Docker Compose execution per Constitution II and plan target platform (partial)
+
+## Phase 8: Convergence
+
+- [X] T042 Update specs/002-working-hours-window-config/contracts/cli.md to document `make dev ARGS="..."` as the project workflow for CLI execution per Constitution II and T041 (partial)

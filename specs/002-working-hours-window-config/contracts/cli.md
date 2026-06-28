@@ -9,7 +9,7 @@ timezone-cli --place <place-input> [--compare <place-input>] [--working-hours-st
 When run through the existing project workflow:
 
 ```bash
-dotnet run --project src/TimezoneCli -- --place <place-input> --compare <place-input> --working-hours-start <HH:mm> --working-hours-end <HH:mm>
+make dev ARGS="--place <place-input> --compare <place-input> --working-hours-start <HH:mm> --working-hours-end <HH:mm>"
 ```
 
 ## Inputs
