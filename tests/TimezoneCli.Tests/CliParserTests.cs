@@ -196,9 +196,9 @@ public sealed class CliParserTests
     public void Parse_prioritizes_invalid_working_hours_over_missing_place()
     {
         var result = CliParser.Parse(
-            ["--working-hours-start", "bad", "--working-hours-end", "17:00"]);
+            ["--compare", "Europe/London", "--working-hours-start", "bad", "--working-hours-end", "17:00"]);
 
         Assert.False(result.IsSuccess);
-        Assert.Equal(ResolutionErrorKind.WorkingHoursWithoutComparison, result.Error!.Kind);
+        Assert.Equal(ResolutionErrorKind.InvalidWorkingHoursTime, result.Error!.Kind);
     }
 }

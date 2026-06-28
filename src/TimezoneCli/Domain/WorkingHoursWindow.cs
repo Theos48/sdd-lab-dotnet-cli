@@ -2,8 +2,25 @@ using System.Globalization;
 
 namespace TimezoneCli.Domain;
 
-public sealed record WorkingHoursWindow(TimeOnly Start, TimeOnly End)
+public sealed record WorkingHoursWindow
 {
+    public WorkingHoursWindow(TimeOnly start, TimeOnly end)
+    {
+        if (end <= start)
+        {
+            throw new ArgumentException(
+                "Working-hours end must be later than start.",
+                nameof(end));
+        }
+
+        Start = start;
+        End = end;
+    }
+
+    public TimeOnly Start { get; }
+
+    public TimeOnly End { get; }
+
     public static WorkingHoursWindow Default { get; } =
         new(new TimeOnly(9, 0), new TimeOnly(17, 0));
 

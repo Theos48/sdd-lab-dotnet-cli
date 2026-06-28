@@ -48,4 +48,21 @@ public sealed class WorkingHoursWindowTests
         Assert.False(result.IsSuccess);
         Assert.Equal(ResolutionErrorKind.InvalidWorkingHoursRange, result.Error!.Kind);
     }
+
+    [Theory]
+    [InlineData(17, 0, 17, 0)]
+    [InlineData(17, 0, 9, 0)]
+    public void Constructor_rejects_zero_length_and_overnight_ranges(
+        int startHour,
+        int startMinute,
+        int endHour,
+        int endMinute)
+    {
+        var exception = Assert.Throws<ArgumentException>(
+            () => new WorkingHoursWindow(
+                new TimeOnly(startHour, startMinute),
+                new TimeOnly(endHour, endMinute)));
+
+        Assert.Equal("end", exception.ParamName);
+    }
 }
