@@ -35,7 +35,7 @@ Expected outcome: formatting verification completes without changes.
 ## Run A Single-Place Lookup
 
 ```bash
-docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City
+make dev ARGS="--place America/Mexico_City"
 ```
 
 Expected outcome:
@@ -48,7 +48,7 @@ Expected outcome:
 ## Run A Two-Place Comparison
 
 ```bash
-docker compose run --rm app dotnet run --project src/TimezoneCli -- --place America/Mexico_City --compare America/New_York
+make dev ARGS="--place America/Mexico_City --compare America/New_York"
 ```
 
 Expected outcome:
@@ -62,7 +62,7 @@ Expected outcome:
 ## Validate Unsupported Mexican Postal Code
 
 ```bash
-docker compose run --rm app dotnet run --project src/TimezoneCli -- --place 01000
+make dev ARGS="--place 01000"
 ```
 
 Expected outcome:
